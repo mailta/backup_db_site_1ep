@@ -4,11 +4,17 @@ import urllib.request
 import datetime
 import smtplib
 import os.path
+import requests
 
 weekday = str(datetime.datetime.today().weekday());
-srs_filename = "https://www.electronpribor.ru/epr.zip";
+src_filename = "https://www.electronpribor.ru/epr.zip";
 dst_filename = "./dump/epr"+weekday+".zip";
-urllib.request.urlretrieve(srs_filename, dst_filename);
+
+request = requests.head(src_filename, allow_redirects=True)
+if request.status_code == 200:
+    urllib.request.urlretrieve(src_filename, dst_filename);
+else:
+    print ("Source file not found")
 
 TO = "mailta@ya.ru"
 FROM = "info@hostping.ru"
