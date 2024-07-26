@@ -1,27 +1,32 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import urllib.request
 import datetime
 import smtplib
+import os.path
 
 weekday = str(datetime.datetime.today().weekday());
 srs_filename = "https://www.electronpribor.ru/epr.zip";
 dst_filename = "./dump/epr"+weekday+".zip";
 urllib.request.urlretrieve(srs_filename, dst_filename);
 
-#send post messages
-#smtp_server = "smtp.gmail.com"
-#port = 587
-#server = smtplib.SMTP(smtp_server, port)
-#server.starttls()
+TO = "mailta@ya.ru"
+FROM = "info@hostping.ru"
 
-#email = "your_email@gmail.com"
-#password = "your_password"
-#server.login(email, password)
-#from_email = email
-#to_email = "recipient_email@example.com"
-#subject = "Тестовое сообщение"
-#message = "Привет, это тестовое сообщение, отправленное с помощью Python и SMTP."
-#server.sendmail(from_email, to_email, f"Subject: {subject}\n\n{message}")
+if os.path.isfile(dst_filename):
+    SUBJECT = "Backup DB Success"
+    text = "Backup DB Success!"
+else:
+    SUBJECT = "Backup DB FAIL"
+    text = "Backup DB FAIL!"
 
-#server.quit()
+BODY = "\r\n".join((
+"From: %s" % FROM,
+"To: %s" % TO,
+"Subject: %s" % SUBJECT ,
+"",
+text
+))
+server = smtplib.SMTP("10.1.137.157", "588")
+server.sendmail(FROM, [TO], BODY)
+server.quit()
