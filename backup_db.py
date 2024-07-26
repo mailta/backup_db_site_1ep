@@ -6,7 +6,7 @@ import smtplib
 import os.path
 import requests
 
-weekday = str(datetime.datetime.today().weekday());
+weekday = str(datetime.datetime.today().weekday()+1);
 src_filename = "https://www.electronpribor.ru/epr.zip";
 dst_filename = "./dump/epr"+weekday+".zip";
 
