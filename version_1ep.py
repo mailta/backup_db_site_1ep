@@ -17,8 +17,8 @@ request = requests.head(src_filename, allow_redirects=True)
 if request.status_code == 200:
    urllib.request.urlretrieve(src_filename, dst_filename);
 else:
-    SUBJECT = "Backup DB fail"
-    text =  "Source file not found"
+    SUBJECT = "Backup DB site fail!"
+    text =  "Source file https://www.electronpribor.ru/epr.zip not found"
     BODY = "\r\n".join((
     "From: %s" % from_mail,
     "To: %s" % to_mail,
@@ -32,11 +32,11 @@ else:
     sys.exit(1)
 
 if os.path.isfile(dst_filename):
-   SUBJECT = "Backup DB Success"
-   text = "Backup DB Success!"
+   SUBJECT = "Backup DB site success"
+   text = "Backup DB site success! - " + "erp"+weekday+".zip"
 else:
-   SUBJECT = "Backup DB fail"
-   text = "Backup DB fail!"
+   SUBJECT = "Backup DB site fail!"
+   text = "Backup DB site fail!"
 
 BODY = "\r\n".join((
 "From: %s" % from_mail,
@@ -48,4 +48,3 @@ text
 server = smtplib.SMTP("10.1.4.211", "587")
 server.sendmail(from_mail, ["psa@1ep.ru", "mas@1ep.ru", "ta77@ro.ru"], BODY)
 server.quit()
- 
